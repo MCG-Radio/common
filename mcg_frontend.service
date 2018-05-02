@@ -1,0 +1,20 @@
+[Unit]
+Description=MCG Frontend
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/frontend.pid
+User=pi
+Group=pi
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/pi/mcg_radio
+ExecStart=/home/pi/mcg_radio/venv/bin/gunicorn \
+          --pid /run/gunicorn/frontend.pid   \
+          --bind 0.0.0.0:5001 frontend.frontend:app
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
