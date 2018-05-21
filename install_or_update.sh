@@ -4,7 +4,7 @@ DEB_PACKAGES='python3 virtualenv git-core mpd sqlite3'
 DEST=~/mcg_radio
 VENV=$DEST/venv
 MCG_GITHOME='https://github.com/MCG-Radio'
-MCG_PACKAGES='frontend backend common'
+MCG_PACKAGES='frontend backend'
 
 function install_debs {
 #  sudo apt-get update
@@ -17,7 +17,7 @@ function clone_or_update_repos {
     mkdir $DEST
   fi
 
-  for r in $MCG_PACKAGES
+  for r in $MCG_PACKAGES common
   do
     if [ -d $DEST/$r ]; then
       cd $DEST/$r
@@ -30,15 +30,20 @@ function clone_or_update_repos {
 }
 
 function create_or_update_venv {
-  if [ ! -d $VENV ]; then
-    mkdir -p $VENV
-    cd $VENV
-    virtualenv -p python3 .
+  if [ -d $VENV ]; then
+    rm -rf $VENV
   fi
 
   for r in $MCG_PACKAGES
   do
-    $VENV/bin/pip install -r $DEST/$r/requirements.txt --upgrade
+    vp = "$VENV"_"$r"
+    if [ ! -d $vp ]; then
+      mkdir -p $vp
+      cd $vp
+      virtualenv -p python3 .
+    fi
+
+    $vp/bin/pip install -r $DEST/$r/requirements.txt --upgrade
   done
 }
 
