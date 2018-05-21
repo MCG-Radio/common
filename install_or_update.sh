@@ -36,7 +36,7 @@ function create_or_update_venv {
 
   for r in $MCG_PACKAGES
   do
-    vp = "$VENV"_"$r"
+    vp="$VENV"_"$r"
     if [ ! -d $vp ]; then
       mkdir -p $vp
       cd $vp
