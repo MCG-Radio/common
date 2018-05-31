@@ -3,10 +3,10 @@ Description=MCG Backend
 After=multi-user.target
 
 [Service]
-Type=idle
 User=pi
+Group=pi
 WorkingDirectory=/home/pi/mcg_radio/backend
-ExecStart=/home/pi/mcg_radio/venv/bin/python main.py
+ExecStart=/home/pi/mcg_radio/venv_backend/bin/python main.py
 
 [Install]
 WantedBy=multi-user.target
